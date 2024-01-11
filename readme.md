@@ -1,0 +1,1 @@
+# Marketplace com Typescript, PostgreSql e Prisma. 
