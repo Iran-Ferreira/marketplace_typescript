@@ -1,5 +1,6 @@
 import {
     createController,
+    findController,
 
 } from "../modules/access"
 
@@ -10,6 +11,10 @@ const routes = Router()
 routes.post("/access", (req: Request, res: Response) => {
     createController.handle(req, res)
 })
+
+routes.get("/access", (req: Request, res: Response) => {
+    findController.handle(req, res);
+});
 
 
 export default routes 
