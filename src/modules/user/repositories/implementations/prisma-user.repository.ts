@@ -8,9 +8,11 @@ export class PrismaUserRepository implements UserRepository {
         this.prisma = new PrismaClient()
     }
 
-    async create(name: string, email: string, password: string): Promise<UserEntity> {
+    async create(name: string, email: string, password: string, accessName: string): Promise<UserEntity> {
         try {
-            const user = await this.prisma.user.create({ data: { name, email, password }})
+            const user = await this.prisma.user.create({ data: { name, email, password, Access: {
+                connect: { name: accessName }
+            }}})
             return user
         } catch (error) {
             console.log(error)
