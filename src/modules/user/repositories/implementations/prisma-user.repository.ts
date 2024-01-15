@@ -18,7 +18,18 @@ export class PrismaUserRepository implements UserRepository {
 
             const user = await this.prisma.user.create({ data: { name, email, password, Access: {
                 connect: { name: accessName }
-            }}})
+            }},
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    Access: {
+                        select: {
+                            name: true,
+                        }
+                    }
+                }
+            })
             return user
         } catch (error) {
             console.log(error)
