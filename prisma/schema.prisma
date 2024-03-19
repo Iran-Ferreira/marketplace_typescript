@@ -35,10 +35,10 @@ model Product {
   name       String
   price      String
   amount     Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
   Store      Store?   @relation(fields: [storeId], references: [id])
   storeId    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model Store {
