@@ -11,7 +11,6 @@ export class PrismaUserRepository implements UserRepository {
 
     async create(name: string, email: string, password: string, accessName: string): Promise<UserEntity> {
         try {
-
             const passwordHash = await hash(password, 10)
 
             password = passwordHash
