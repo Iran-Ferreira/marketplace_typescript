@@ -8,13 +8,12 @@ export class PrismaStoreRepository implements StoreRepository {
         this.prisma = new PrismaClient()
     }
 
-    async create(name: string, userId: string): Promise<StoreEntity> {
+    async create(name: string, userId: string): Promise<void> {
         try {
             const store = await this.prisma.store.create({ data: { name, 
                 User: {
                     connect: { id: userId },
                 }}})
-            return store
         } catch (error) {
             console.log(error)
             throw new Error("Erro ao criar Loja")
