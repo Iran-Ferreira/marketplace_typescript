@@ -30,7 +30,17 @@ export class PrismaStoreRepository implements StoreRepository {
 
     async find(): Promise<StoreEntity[]> {
         try {
-            const stores = await this.prisma.store.findMany()
+            const stores = await this.prisma.store.findMany({
+                select: {
+                    id: true,
+                    name: true, 
+                    User: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            })
             return stores
         } catch (error) {
             console.log(error)
