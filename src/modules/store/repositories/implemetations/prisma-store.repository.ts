@@ -10,7 +10,7 @@ export class PrismaStoreRepository implements StoreRepository {
 
     async create(name: string, userId: string): Promise<void> {
         try {
-            const store = await this.prisma.store.create({ data: { name, 
+                await this.prisma.store.create({ data: { name, 
                 User: {
                     connect: { id: userId },
                 }}})
