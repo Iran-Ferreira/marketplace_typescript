@@ -1,15 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 import { StoreEntity } from "../../entities/store.entity";
 import { StoreRepository } from "../store.repository";
+import { PrismaUserRepository } from "../../../user/repositories/implementations/prisma-user.repository";
 
 export class PrismaStoreRepository implements StoreRepository {
-    private prisma
+    private prisma: PrismaClient
+    private userRepository: PrismaUserRepository
     constructor(){
         this.prisma = new PrismaClient()
+        this.userRepository = new PrismaUserRepository()
     }
 
     async create(name: string, userId: string): Promise<void> {
         try {
+                const user = await this.userRepository.findUserById(userId)
+                if(!user){
+                    throw new Error("Usuário não encontrado")
+                }
+
                 await this.prisma.store.create({ data: { name, 
                 User: {
                     connect: { id: userId },
