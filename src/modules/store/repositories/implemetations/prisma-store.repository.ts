@@ -38,7 +38,8 @@ export class PrismaStoreRepository implements StoreRepository {
                         select: {
                             name: true
                         }
-                    }
+                    },
+                    Product: true
                 }
             })
             return stores
