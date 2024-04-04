@@ -15,16 +15,26 @@ export class PrismaUserRepository implements UserRepository {
 
             password = passwordHash
 
-            const user = await this.prisma.user.create({ data: { name, email, password, Access: {
-                connect: { name: accessName }
+            const user = await this.prisma.user.create({ data: { name, email, password, userAccess: {
+                create: {
+                    Access: {
+                        connect: {
+                            name: accessName
+                        }
+                    }
+                }
             }},
                 select: {
                     id: true,
                     name: true,
                     email: true,
-                    Access: {
-                        select: {
-                            name: true,
+                    userAccess: {
+                        select: { 
+                            Access: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }
@@ -38,7 +48,22 @@ export class PrismaUserRepository implements UserRepository {
 
     async find(): Promise<UserEntity[]> {
         try {
-            const usuarios = await this.prisma.user.findMany()
+            const usuarios = await this.prisma.user.findMany({
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    userAccess: {
+                        select: {
+                            Access: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                }
+            })
             return usuarios
         } catch (error) {
             console.log(error)
