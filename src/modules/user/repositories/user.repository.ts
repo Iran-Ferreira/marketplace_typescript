@@ -6,4 +6,5 @@ export interface UserRepository {
     find(): Promise<UserEntity[]>
     update(id: string, name: string, email: string, password: string): Promise<void>
     delete(id: string): Promise<void>
+    login(email: string, password: string): Promise<string | undefined>
 }

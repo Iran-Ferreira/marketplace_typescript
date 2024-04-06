@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { UserEntity } from "../../entities/user.entity";
 import { UserRepository } from '../user.repository';
-import { hash } from "bcryptjs";
+import { hash, compare } from "bcryptjs";
+import { JWTService } from "../../services/JWT-user.service";
 
 export class PrismaUserRepository implements UserRepository {
     private prisma
@@ -105,6 +106,42 @@ export class PrismaUserRepository implements UserRepository {
         } catch (error) {
             console.log(error)
             throw new Error("Erro ao atualizar o usuário")
+        }
+    }
+
+    async login(email: string, password: string): Promise<string | undefined> {
+        try {
+            const user = await this.prisma.user.findUnique({ 
+                where: {
+                    email
+                },
+                include: {
+                    userAccess: {
+                        select: {
+                            Access: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+
+            if(!user){
+                throw new Error("Usuário não encontrado")
+            }
+
+            const passwordMatch = await compare(password, user.password)
+
+            if(!passwordMatch){
+                throw new Error("Senha incorreta")
+            }
+
+            const token = JWTService.sign({ id: user.id })
+            return token 
+        } catch (error) {
+            console.log(error)
         }
     }
 
