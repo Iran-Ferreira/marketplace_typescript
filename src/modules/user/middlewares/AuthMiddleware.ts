@@ -23,6 +23,7 @@ export function authMiddleware(permissions?: string[]){
             }
 
             const decodedToken = JWTService.verify(token)
+            req.user = { id: decodedToken.id }
 
             if(permissions){
                 const user = await prisma.user.findUnique({
