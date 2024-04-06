@@ -2,6 +2,7 @@ import {
     createController,
     findController,
     findOneController,
+    loginController
 
 } from "../modules/user"
 
@@ -20,5 +21,9 @@ routes.get("/user", (req: Request, res: Response) => {
 routes.get("/user/:id", (req: Request, res: Response) => {
     findOneController.handle(req, res);
 });
+
+routes.post("/login", (req: Request, res: Response) => {
+    loginController.handle(req, res)
+})
 
 export default routes
