@@ -74,7 +74,25 @@ export class PrismaUserRepository implements UserRepository {
 
     async findUserById(id: string): Promise<UserEntity> {
         try {
-            const usuario = await this.prisma.user.findUniqueOrThrow({ where: { id } })
+            const usuario = await this.prisma.user.findUniqueOrThrow({ 
+                where: { 
+                    id
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    userAccess: {
+                        select: {
+                            Access: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                } 
+            })
             return usuario
         } catch (error) {
             console.log(error)
