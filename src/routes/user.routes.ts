@@ -2,7 +2,8 @@ import {
     createController,
     findController,
     findOneController,
-    loginController
+    loginController,
+    deleteController
 
 } from "../modules/user"
 
@@ -22,6 +23,10 @@ routes.get("/find-all-user", authMiddleware(["adm"]), (req: Request, res: Respon
 routes.get("/find-user-one", authMiddleware(["adm", "vendedor", "comprador"]), (req: Request, res: Response) => {
     findOneController.handle(req, res);
 });
+
+routes.delete("/delete-user", authMiddleware(["adm"]), (req: Request, res: Response) => {
+    deleteController.handle(req, res)
+})
 
 routes.post("/login", (req: Request, res: Response) => {
     loginController.handle(req, res)
