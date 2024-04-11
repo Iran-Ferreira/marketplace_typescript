@@ -5,7 +5,7 @@ export class CreateUserController {
     constructor(private readonly service: CreateUserService) {}
     async handle(request: Request, response: Response): Promise<Response> {
         const { name, email, password, accessName } = request.body
-        const usuario = await this.service.execute(name, email, password, accessName)
-        return response.json(usuario)
+        await this.service.execute(name, email, password, accessName)
+        return response.json({ message: "Usuário criado com sucesso" })
     }
 }

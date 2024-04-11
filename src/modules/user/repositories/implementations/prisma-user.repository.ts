@@ -10,13 +10,13 @@ export class PrismaUserRepository implements UserRepository {
         this.prisma = new PrismaClient()
     }
 
-    async create(name: string, email: string, password: string, accessName: string): Promise<UserEntity> {
+    async create(name: string, email: string, password: string, accessName: string): Promise<void> {
         try {
             const passwordHash = await hash(password, 10)
 
             password = passwordHash
 
-            const user = await this.prisma.user.create({ data: { name, email, password, userAccess: {
+            await this.prisma.user.create({ data: { name, email, password, userAccess: {
                 create: {
                     Access: {
                         connect: {
@@ -24,23 +24,7 @@ export class PrismaUserRepository implements UserRepository {
                         }
                     }
                 }
-            }},
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    userAccess: {
-                        select: { 
-                            Access: {
-                                select: {
-                                    name: true
-                                }
-                            }
-                        }
-                    }
-                }
-            })
-            return user
+            }}})
         } catch (error) {
             console.log(error)
             throw new Error("Erro ao criar usuário")
