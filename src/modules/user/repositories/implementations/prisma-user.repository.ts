@@ -58,7 +58,7 @@ export class PrismaUserRepository implements UserRepository {
 
     async findUserById(id: string): Promise<UserEntity> {
         try {
-            const usuario = await this.prisma.user.findUniqueOrThrow({ 
+            const usuario = await this.prisma.user.findUnique({ 
                 where: { 
                     id
                 },
@@ -72,10 +72,16 @@ export class PrismaUserRepository implements UserRepository {
                                 select: {
                                     name: true
                                 }
-                            }
+                            }   
+                        }
+                    },
+                    store: {
+                        select: {
+                            id: true,
+                            name: true
                         }
                     }
-                } 
+                }
             })
             return usuario
         } catch (error) {
