@@ -9,6 +9,8 @@ import { LoginUserController } from "./controllers/login-user.controller";
 import { LoginUserService } from "./services/login-user.service";
 import { DeleteUserController } from './controllers/delete-user.controller';
 import { DeleteUserService } from "./services/delete-user.service";
+import { UpdateUserController } from './controllers/update-user.controller';
+import { UpdateUserService } from "./services/update-user.service";
 
 const repository = new PrismaUserRepository()
 
@@ -24,6 +26,9 @@ const findOneController = new FindOneUserController(findOneService)
 const deleteService = new DeleteUserService(repository)
 const deleteController = new DeleteUserController(deleteService)
 
+const updateService = new UpdateUserService(repository)
+const updateController = new UpdateUserController(updateService)
+
 const loginService = new LoginUserService(repository)
 const loginController = new LoginUserController(loginService)
 
@@ -32,5 +37,6 @@ export {
     findController,
     findOneController,
     loginController,
-    deleteController
+    deleteController,
+    updateController
 }
