@@ -44,7 +44,7 @@ export class PrismaStoreRepository implements StoreRepository {
                             id: true,
                             name: true,
                             price: true,
-                            amount: true // Não testei esse retorno ainda // 
+                            amount: true 
                         }
                     }
                 }
