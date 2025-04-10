@@ -3,7 +3,8 @@ import {
     findController,
     findOneController,
     loginController,
-    deleteController
+    deleteController,
+    updateController
 
 } from "../modules/user"
 
@@ -26,6 +27,10 @@ routes.get("/find-user-one", authMiddleware(["adm", "vendedor", "comprador"]), (
 
 routes.delete("/delete-user", authMiddleware(["adm"]), (req: Request, res: Response) => {
     deleteController.handle(req, res)
+})
+
+routes.put("/update-user", authMiddleware(["adm", "vendedor", "comprador"]), (req: Request, res: Response) => {
+    updateController.handle(req, res)
 })
 
 routes.post("/login", (req: Request, res: Response) => {
